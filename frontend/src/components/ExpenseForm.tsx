@@ -78,7 +78,7 @@ export function ExpenseForm({
         fullWidth
         required
       />
-
+      
       <TextField
         label="Date"
         type="date"
