@@ -87,7 +87,7 @@ const HistoryPage: React.FC = () => {
   const handleAddCustomCategory = async (data: CategoryFormData) => {
     try {
       await createCustomCategory(data);
-      setIsModalOpen(false);
+      setIsCategoryModalOpen(false);
     } catch (error) {
       console.error("Error creating custom category:", error);
       throw error;
@@ -212,7 +212,7 @@ const HistoryPage: React.FC = () => {
       >
         <CategoryForm
           onSubmit={handleAddCustomCategory}
-          onCancel={() => setModalIsOpen(false)}
+          onCancel={() => setIsCategoryModalOpen(false)}
         />
       </Modal>
     </div>
