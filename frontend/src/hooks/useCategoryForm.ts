@@ -49,7 +49,7 @@ export function useCategoryForm({ initialData, onSubmit }: UseCategoryFormProps)
 
     setIsSubmitting(true);
     try {
-      // await onSubmit(formData);
+      await onSubmit(formData);
       // // Reset form on success
       setFormData({
         name: "",
