@@ -14,6 +14,7 @@ export async function fetchExpenses(): Promise<Expense[]> {
   if (!response.ok) {
     throw new Error("Failed to fetch expenses");
   }
+  
   return response.json();
 }
 
