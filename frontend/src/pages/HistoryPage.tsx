@@ -6,6 +6,7 @@ import { MonthNavigation } from "../components/MonthNavigation";
 import CategoryBreakdown from "../components/CategoryBreakdown";
 import { CalendarExpenseTable } from "../components/CalendarExpenseTable";
 import { ExpenseForm } from "../components/ExpenseForm";
+import { CategoryForm } from "../components/CategoryForm";
 import { Modal, Button } from "../vibes";
 import { COLORS } from "../constants/colors";
 
@@ -13,6 +14,7 @@ const HistoryPage: React.FC = () => {
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
 
   // Get year and month from URL params, default to current date if not provided
   const getInitialYearMonth = () => {
@@ -78,6 +80,16 @@ const HistoryPage: React.FC = () => {
       fetchExpenses();
     } catch (error) {
       console.error("Error creating expense:", error);
+      throw error;
+    }
+  };
+
+  const handleAddCustomCategory = async (data: CategoryFormData) => {
+    try {
+      await createCustomCategory(data);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error creating custom category:", error);
       throw error;
     }
   };
@@ -151,6 +163,9 @@ const HistoryPage: React.FC = () => {
         <Button variant="primary" onClick={() => setIsModalOpen(true)}>
           Add Expense
         </Button>
+        <Button variant="primary" onClick={() => setIsCategoryModalOpen(true)}>
+          Add Custom Category
+        </Button>
       </div>
 
       <MonthNavigation
@@ -187,6 +202,17 @@ const HistoryPage: React.FC = () => {
         <ExpenseForm
           onSubmit={handleAddExpense}
           onCancel={() => setIsModalOpen(false)}
+        />
+      </Modal>
+
+      <Modal
+        isOpen={isCategoryModalOpen}
+        onClose={() => setIsCategoryModalOpen(false)}
+        title="Add Custom Category"
+      >
+        <CategoryForm
+          onSubmit={handleAddCustomCategory}
+          onCancel={() => setModalIsOpen(false)}
         />
       </Modal>
     </div>
