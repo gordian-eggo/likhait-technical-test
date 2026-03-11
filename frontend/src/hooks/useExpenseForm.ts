@@ -12,6 +12,7 @@ interface UseExpenseFormProps {
 }
 
 export function useExpenseForm({ initialData, onSubmit }: UseExpenseFormProps) {
+  const currentDate = formatDate(new Date());
   const [formData, setFormData] = useState<ExpenseFormData>({
     amount: initialData?.amount || "",
     description: initialData?.description || "",
@@ -47,6 +48,13 @@ export function useExpenseForm({ initialData, onSubmit }: UseExpenseFormProps) {
 
     if (!formData.date) {
       newErrors.date = "Date is required";
+    }
+
+    if (formData.date > currentDate) {
+      newErrors.date = "Cannot select a future date";
+      setFormData({
+        date: formatDate(new Date()),
+      });
     }
 
     setErrors(newErrors);
