@@ -40,25 +40,23 @@ export function ExpenseForm({
     marginTop: "0.5rem",
   };
 
-  let categoriesList = useState<Category[]>([]);
+  let [categoriesList, setCategoriesList] = useState<Category[]>([]);
 
-  let refreshedCategories = useEffect(() => {
-    console.log("refreshed here");
+  useEffect(() => {
     updateCategoriesList();
-    console.log(categoriesList);
   });
 
   let updateCategoriesList = async () => {
     try {
-      console.log("so i'm here");
-      const updatedCategories = await fetchCategories();
-      for (let i = 0; i < updatedCategories.length; i++) {
-        updatedCategories[i] = updatedCategories[i].name;
+      const data = await fetchCategories();
+      for (let i = 0; i < data.length; i++) {
+        data[i] = data[i].name;
       }
-      categoriesList = updatedCategories.map((name) => ({
+      let updatedCategories = data.map((name) => ({
         value: name,
         label: name,
       }));
+      setCategoriesList(updatedCategories);
     } catch (error) {
       console.error("Updating category list error: ", error);
     }
