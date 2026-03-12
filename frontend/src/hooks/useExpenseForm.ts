@@ -53,6 +53,9 @@ export function useExpenseForm({ initialData, onSubmit }: UseExpenseFormProps) {
     if (formData.date > currentDate) {
       newErrors.date = "Cannot select a future date";
       setFormData({
+        amount: "",
+        description: "",
+        category: "",
         date: formatDate(new Date()),
       });
     }
