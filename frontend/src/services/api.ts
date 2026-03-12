@@ -3,8 +3,9 @@
  */
 
 import { Expense, ExpenseFormData } from "../types";
+import { Category, CategoryFormData } from "../types" 
 
-const API_BASE_URL = "http://localhost:3000/api";
+const API_BASE_URL = "http://localhost:3000/api"; 
 
 /**
  * Fetch all expenses
@@ -14,6 +15,7 @@ export async function fetchExpenses(): Promise<Expense[]> {
   if (!response.ok) {
     throw new Error("Failed to fetch expenses");
   }
+  
   return response.json();
 }
 
@@ -74,6 +76,28 @@ export async function createExpense(data: ExpenseFormData): Promise<Expense> {
   }
 
   return response.json();
+}
+
+// Add new custom category
+export async function createCustomCategory(data: CategoryFormData): Promise<Category> {
+  const categoryData = {
+    name: data.name,
+  }
+
+  const response = await fetch(`${API_BASE_URL}/categories`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ category: categoryData }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to create custom category." + reponse);
+  }
+
+  return response.json(); 
+
 }
 
 /**
