@@ -9,7 +9,7 @@ class Api::CategoriesController < ApplicationController
 
     if category.save
       render json: format_category(category), status: :created
-    else render json: {errors: category.errors.full_messages }, status: :unprocessable_entity
+    else render json: { errors: category.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
@@ -18,7 +18,7 @@ class Api::CategoriesController < ApplicationController
 
     if category.update(category_params)
       render json: format_category(category)
-    else render json: {errors: category.errors.full_messages }, status: :unprocessable_entity
+    else render json: { errors: category.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

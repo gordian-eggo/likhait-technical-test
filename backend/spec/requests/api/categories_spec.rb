@@ -23,7 +23,7 @@ RSpec.describe "Api::Categories", type: :request do
     end
   end
 
-  describe "POST /api/categories" do 
+  describe "POST /api/categories" do
     context "with valid parameters" do
       let(:valid_params) do
         {
@@ -68,7 +68,7 @@ RSpec.describe "Api::Categories", type: :request do
           post "/api/categories", params: non_string_name, as: :json
         }.to change(Category, :count).by(1)
         expect(response).to have_http_status(:created)
-       end 
+       end
     end
   end
 end
