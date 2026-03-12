@@ -2,11 +2,12 @@
  * Form component for adding/editing expenses
  */
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ExpenseFormData } from "../types";
 import { EXPENSE_CATEGORIES } from "../constants/categories";
 import { TextField, SelectBox, Button } from "../vibes";
 import { useExpenseForm } from "../hooks/useExpenseForm";
+import { fetchCategories } from "../services/api"
 
 interface ExpenseFormProps {
   initialData?: Partial<ExpenseFormData>;
@@ -39,10 +40,27 @@ export function ExpenseForm({
     marginTop: "0.5rem",
   };
 
-  const categoryOptions = EXPENSE_CATEGORIES.map((category) => ({
-    value: category,
-    label: category,
-  }));
+  let [categoriesList, setCategoriesList] = useState<Category[]>([]);
+
+  useEffect(() => {
+    updateCategoriesList();
+  });
+
+  let updateCategoriesList = async () => {
+    try {
+      const data = await fetchCategories();
+      for (let i = 0; i < data.length; i++) {
+        data[i] = data[i].name;
+      }
+      let updatedCategories = data.map((name) => ({
+        value: name,
+        label: name,
+      }));
+      setCategoriesList(updatedCategories);
+    } catch (error) {
+      console.error("Updating category list error: ", error);
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} style={formStyle}>
@@ -71,14 +89,14 @@ export function ExpenseForm({
 
       <SelectBox
         label="Category"
-        options={categoryOptions}
+        options={categoriesList}
         value={formData.category}
         onChange={(e) => handleChange("category", e.target.value)}
         error={errors.category}
         fullWidth
         required
       />
-
+      
       <TextField
         label="Date"
         type="date"
