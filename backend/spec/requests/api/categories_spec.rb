@@ -22,4 +22,53 @@ RSpec.describe "Api::Categories", type: :request do
       expect(json.map { |c| c["name"] }).to eq([ "Food", "Supplies", "Transport" ])
     end
   end
+
+  describe "POST /api/categories" do 
+    context "with valid parameters" do
+      let(:valid_params) do
+        {
+          category: {
+            name: "Personal"
+          }
+        }
+      end
+
+      it "posts and creates new category successfully" do
+        expect {
+          post "/api/categories", params: valid_params, as: :json
+        }.to change(Category, :count).by(1)
+
+        expect(response).to have_http_status(:created)
+        json = JSON.parse(response.body)
+        expect(json["name"]).to eq("Personal")
+      end
+    end
+
+    context "with invalid parameters" do
+      it "with empty name" do
+        no_name_param = {
+          category: {
+            name: ""
+          }
+        }
+
+        expect {
+          post "/api/categories", params: no_name_param, as: :json
+        }.to change(Category, :count).by(1)
+        expect(response).to have_http_status(:created)
+      end
+
+      it "with non-string name value" do
+        non_string_name = {
+          category: {
+            name: 100
+          }
+        }
+        expect {
+          post "/api/categories", params: non_string_name, as: :json
+        }.to change(Category, :count).by(1)
+        expect(response).to have_http_status(:created)
+       end 
+    end
+  end
 end

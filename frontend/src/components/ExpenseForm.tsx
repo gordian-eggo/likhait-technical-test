@@ -62,11 +62,6 @@ export function ExpenseForm({
     }
   }
 
-  const categoryOptions = EXPENSE_CATEGORIES.map((category) => ({
-    value: category,
-    label: category,
-  }));
-
   return (
     <form onSubmit={handleSubmit} style={formStyle}>
       <TextField
@@ -95,7 +90,6 @@ export function ExpenseForm({
       <SelectBox
         label="Category"
         options={categoriesList}
-        // options={categoryOptions}
         value={formData.category}
         onChange={(e) => handleChange("category", e.target.value)}
         error={errors.category}

@@ -56,11 +56,9 @@ export async function createExpense(data: ExpenseFormData): Promise<Expense> {
   const categories = await fetchCategories();
   const category = categories.find((c) => c.name === data.category);
 
-  // console.log("expense here");
-
   const expenseData = {
+    amount: data.amount.toString(),
     description: data.description,
-    amount: data.amount,
     category_id: category?.id,
     date: data.date,
   };
