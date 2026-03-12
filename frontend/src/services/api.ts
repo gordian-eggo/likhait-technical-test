@@ -42,7 +42,6 @@ export async function fetchCategories(): Promise<
   Array<{ id: number; name: string }>
 > {
   const response = await fetch(`${API_BASE_URL}/categories`);
-  // console.log("fetch here");
   if (!response.ok) {
     throw new Error("Failed to fetch categories");
   }
@@ -86,9 +85,6 @@ export async function createCustomCategory(data: CategoryFormData): Promise<Cate
   const categoryData = {
     name: data.name,
   }
-
-  console.log("here");
-  console.log(data);
 
   const response = await fetch(`${API_BASE_URL}/categories`, {
     method: "POST",
